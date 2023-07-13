@@ -1,12 +1,12 @@
 {
   "name": "autominify",
-  "displayName": "AutoMinify",
+  "displayName": "Auto-Minify",
   "description": "Automatically creates a 'min' file of your HTML, CSS and JS files on save",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.80.0"
   },
-  "author": "picoDev",
+  "author": "CaffeineOnIce",
   "categories": [
     "Other"
   ],
@@ -25,6 +25,7 @@
       }
     ]
   },
+  "icon": "",
   "dependencies": {
     "clean-css": "^5.3.2",
     "html-minifier": "^4.0.0",
