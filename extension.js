@@ -1,32 +1,27 @@
 const vscode = require('vscode');
-/**
- * @param {vscode.ExtensionContext} context
- */
-async function activate(context) {
+const {
+	minify
+} = require('terser');
+const minifyCSS = require('clean-css');
+const minifyHTML = require('html-minifier').minify;
+const fs = require('fs');
+const path = require('path');
 
-	const { minify } = require('terser');
+function activate() {
+	vscode.workspace.onDidSaveTextDocument(async (document) => {
+		const {
+			languageId,
+			fileName
+		} = document;
 
-	const minifyCSS = require('clean-css');
-	const minifyHTML = require('html-minifier').minify;
-	const minifyJS = minify;
+		let parentPath = path.parse(fileName).dir;
+		let inputFile = document.getText();
+		let outputFile;
 
-	const fs = require('fs');
-	const path = require('path');
-
-	let minifyTheCode = vscode.commands.registerCommand('autominify.minify', async function (){
-		let editor = vscode.window.activeTextEditor;
-		
-		if (!editor)
-		{
-			vscode.window.showErrorMessage("Run in an Editor.");
-		}
-		else 
-		{
-			if (vscode.window.activeTextEditor.document.languageId == 'html')
-			{
-				let parentPath = path.parse(vscode.window.activeTextEditor.document.fileName).dir;
-				let htmlInput = vscode.window.activeTextEditor.document.getText();
-				let resultHTML = minifyHTML(htmlInput, {
+		switch (languageId) {
+			case 'html':
+				outputFile = `${parentPath}/${path.parse(fileName).name}.min.html`;
+				let minifiedHTML = minifyHTML(inputFile, {
 					caseSensitive: true,
 					collapseWhitespace: true,
 					collapseInlineTagWhitespace: true,
@@ -37,46 +32,53 @@ async function activate(context) {
 					minifyCSS: true,
 					minifyJS: true
 				});
-				fs.writeFile(parentPath+'/'+path.parse(vscode.window.activeTextEditor.document.fileName).name+'.min.html', resultHTML, err => {
-					if (err) throw err;
-				});
-			}
+				await writeFile(outputFile, minifiedHTML);
+				vscode.window.setStatusBarMessage('HTML Minified', 2000);
+				break;
 
-			if (vscode.window.activeTextEditor.document.languageId == 'css')
-			{
-				let parentPath = path.parse(vscode.window.activeTextEditor.document.fileName).dir;
-				let cssInput = vscode.window.activeTextEditor.document.getText();
-				let resultCSS = new minifyCSS({
+			case 'css':
+				outputFile = `${parentPath}/${path.parse(fileName).name}.min.css`;
+				let minifiedCSS = new minifyCSS({
 					level: {
 						2: {
-							all: true  // sets all values to `false`
+							all: true
 						}
 					}
-				}).minify(cssInput);
-				fs.writeFile(parentPath+'/'+path.parse(vscode.window.activeTextEditor.document.fileName).name+'.min.css', resultCSS.styles, err => {
-					if (err) throw err;
-				});
-			}
+				}).minify(inputFile);
+				await writeFile(outputFile, minifiedCSS.styles);
+				vscode.window.setStatusBarMessage('CSS Minified', 2000);
+				break;
 
-			if (vscode.window.activeTextEditor.document.languageId == 'javascript')
-			{
-				let parentPath = path.parse(vscode.window.activeTextEditor.document.fileName).dir;
-				let jsInput = vscode.window.activeTextEditor.document.getText();
-				let options = { mangle: { properties: false } }
-				var resultJS = await minifyJS(jsInput, options);
-				fs.writeFile(parentPath+'/'+path.parse(vscode.window.activeTextEditor.document.fileName).name+'.min.js', resultJS.code, err => {
-					if (err) throw err;
-				});
-			}
+			case 'javascript':
+				outputFile = `${parentPath}/${path.parse(fileName).name}.min.js`;
+				let options = {
+					mangle: {
+						properties: false
+					}
+				};
+				let minifiedJS = await minify(inputFile, options);
+				await writeFile(outputFile, minifiedJS.code);
+				vscode.window.setStatusBarMessage('JS Minified', 2000);
+				break;
 		}
 	});
-	context.subscriptions.push(minifyTheCode);
 }
 
-// This method is called when your extension is deactivated
 function deactivate() {}
+
+async function writeFile(outputPath, content) {
+	return new Promise((resolve, reject) => {
+		fs.writeFile(outputPath, content, (err) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve();
+			}
+		});
+	});
+}
 
 module.exports = {
 	activate,
 	deactivate
-}
+};
