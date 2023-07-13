@@ -1,65 +1,68 @@
-# autominify README
+# Auto-Minify extension for VSCode
 
-This is the README for your extension "autominify". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Automatically minify your HTML, CSS and JS files to save space and bandwidth.
 
 ---
 
-## Working with Markdown
 
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+# Features
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
+- Automatically generates a `.min.html`/`.min.css`/`.min.js` file each time you save a `.html`/`.css`/`.js` file.  
+  e.g. `styles.css` --> `styles.min.css`
 
-## For more information
+  
+# Basic Usage
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+1.  Create a `.html`/`.css`/`.js` file. file.
+2.  Hit `Ctrl/Cmd`+`S` to save your file.
+3.  A `.min.html`/`.min.css`/`.min.js` file is automatically generated.
+4.  You should see a temporary "HTML Compiled" or "CSS Compiled" or "JS Compiled" message in the status bar.
 
-**Enjoy!**
+
+# Dependencies Utilised
+* **HTML:** [html-minifier](https://github.com/kangax/html-minifier)
+* **CSS:** [clean-css](https://github.com/clean-css/clean-css/)
+* **JS:** [terser](https://github.com/terser/terser/)
+
+
+# Heads-Up
+
+- As it is based on the dependencies, any errors on minifying is entirely caused by the dependencies.
+- Any new features that are desired, please request them in the Issues tab. They are greatly welcomed.
+
+**Any other options not provided below are not explicitly declared in my code, and thus, are defaulted to their value.**
+
+`html-minifier` options utilised: 
+```
+{
+	caseSensitive: true,
+	collapseWhitespace: true,
+	collapseInlineTagWhitespace: true,
+	continueOnParseError: true,
+	removeComments: true,
+	removeAttributeQuotes: true,
+	removeRedundantAttributes: true,
+	minifyCSS: true,
+	minifyJS: true
+}
+```
+
+`clean-css` options utilised: 
+```
+{
+	level: {
+		2: {
+			all: true
+		}
+	}
+}
+```
+
+`terser` options utilised:
+```
+{
+	mangle: {
+		properties: false
+	}
+}
+```
