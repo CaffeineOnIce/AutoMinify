@@ -1,7 +1,5 @@
 const vscode = require('vscode');
-const {
-	minify
-} = require('terser');
+const { minify } = require('terser');
 const minifyCSS = require('clean-css');
 const minifyHTML = require('html-minifier').minify;
 const fs = require('fs');
