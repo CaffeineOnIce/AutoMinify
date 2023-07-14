@@ -5,15 +5,29 @@ const minifyHTML = require('html-minifier').minify;
 const fs = require('fs');
 const path = require('path');
 
-function activate() {
-	vscode.workspace.onDidSaveTextDocument(async (document) => {
-		const {
-			languageId,
-			fileName
-		} = document;
+let enableHtmlMinification = true;
+let enableCssMinification = true;
+let enableJsMinification = true;
+let enableMinFileHtml = true;
+let enableMinFileCss = true;
+let enableMinFileJs = true;
 
-		let parentPath = path.parse(fileName).dir;
-		let inputFile = document.getText();
+function activate(context) {
+	updateSettings();
+
+	vscode.workspace.onDidSaveTextDocument(async (document) => {
+		const { languageId, fileName } = document;
+		const parentPath = path.parse(fileName).dir;
+		const inputFile = document.getText();
+
+		if (!shouldMinify(languageId)) {
+			return;
+		}
+
+		if (isMinFile(fileName) && !shouldMinifyMinFiles(languageId)) {
+			return;
+		}
+
 		let outputFile;
 
 		switch (languageId) {
@@ -36,37 +50,92 @@ function activate() {
 
 			case 'css':
 				outputFile = `${parentPath}/${path.parse(fileName).name}.min.css`;
-				let minifiedCSS = new minifyCSS({
-					level: {
-						2: {
-							all: true
-						}
-					}
-				}).minify(inputFile);
+				let minifiedCSS = new minifyCSS({ level: { 2: { all: true } } }).minify(inputFile);
 				await writeFile(outputFile, minifiedCSS.styles);
 				vscode.window.setStatusBarMessage('CSS Minified', 2000);
 				break;
 
 			case 'javascript':
 				outputFile = `${parentPath}/${path.parse(fileName).name}.min.js`;
-				let options = {
-					mangle: {
-						properties: false
-					}
-				};
+				let options = { mangle: { properties: false } };
 				let minifiedJS = await minify(inputFile, options);
 				await writeFile(outputFile, minifiedJS.code);
 				vscode.window.setStatusBarMessage('JS Minified', 2000);
 				break;
 		}
 	});
+
+	context.subscriptions.push(vscode.commands.registerCommand('autominify.minify', () => {
+		// Code to run when the command is triggered
+	}));
+
+	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration((event) => {
+		if (
+			event.affectsConfiguration('autominify.enableHtmlMinification') ||
+			event.affectsConfiguration('autominify.enableCssMinification') ||
+			event.affectsConfiguration('autominify.enableJsMinification') ||
+			event.affectsConfiguration('autominify.enableMinFileHtml') ||
+			event.affectsConfiguration('autominify.enableMinFileCss') ||
+			event.affectsConfiguration('autominify.enableMinFileJs')
+		) {
+			updateSettings();
+		}
+	}));
 }
 
 function deactivate() {}
 
+function updateSettings() {
+	const config = vscode.workspace.getConfiguration('autominify');
+	enableHtmlMinification = config.get('enableHtmlMinification', true);
+	enableCssMinification = config.get('enableCssMinification', true);
+	enableJsMinification = config.get('enableJsMinification', true);
+	enableMinFileHtml = config.get('enableMinFileHtml', true);
+	enableMinFileCss = config.get('enableMinFileCss', true);
+	enableMinFileJs = config.get('enableMinFileJs', true);
+}
+
+function shouldMinify(languageId) {
+	switch (languageId) {
+		case 'html':
+			return enableHtmlMinification;
+
+		case 'css':
+			return enableCssMinification;
+
+		case 'javascript':
+			return enableJsMinification;
+
+		default:
+			return false;
+	}
+}
+
+function shouldMinifyMinFiles(languageId) {
+	switch (languageId) {
+		case 'html':
+			return enableMinFileHtml;
+
+		case 'css':
+			return enableMinFileCss;
+
+		case 'javascript':
+			return enableMinFileJs;
+
+		default:
+			return false;
+	}
+}
+
+function isMinFile(fileName) {
+	const parsedPath = path.parse(fileName);
+	const name = parsedPath.name.toLowerCase();
+	return name.includes('min');
+}
+
 async function writeFile(outputPath, content) {
 	return new Promise((resolve, reject) => {
-		fs.writeFile(outputPath, content, (err) => {
+		fs.writeFile(outputPath, content, { flag: 'w' }, (err) => {
 			if (err) {
 				reject(err);
 			} else {

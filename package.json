@@ -1,40 +1,81 @@
 {
-  "name": "autominify",
-  "displayName": "Auto-Minify",
-  "description": "Automatically creates a 'min' file of your HTML, CSS and JS files on save",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.80.0"
-  },
-  "author": "CaffeineOnIce",
-  "publisher": "CaffeineOnIce",
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onLanguage:html",
-    "onLanguage:css",
-    "onLanguage:javascript",
-    "onDidSaveTextDocument"
-  ],
-  "main": "./extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "autominify.minify",
-        "title": "Minify it"
-      }
-    ]
-  },
-  "icon": "icon.png",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/CaffeineOnIce/Auto-Minify.git"
-  },
-  "dependencies": {
-    "clean-css": "^5.3.2",
-    "html-minifier": "^4.0.0",
-    "terser": "^5.19.0"
-  },
-  "license": "MIT"
+	"name": "autominify",
+	"displayName": "Auto-Minify",
+	"description": "Automatically creates a 'min' file of your HTML, CSS, and JS files on save",
+	"version": "1.0.9",
+	"repository": "https://github.com/caffeineonice/auto-minify",
+	"license": "MIT",
+	"icon": "icon.png",
+	"engines": {
+		"vscode": "^1.80.0"
+	},
+	"author": "CaffeineOnIce",
+	"publisher": "CaffeineOnIce",
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:html",
+		"onLanguage:css",
+		"onLanguage:javascript",
+		"onDidSaveTextDocument"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "autominify.minify",
+				"title": "Minify it"
+			}
+		],
+		"configuration": {
+			"title": "Auto-Minify",
+			"type": "object",
+			"properties": {
+				"autominify.enableHtmlMinification": {
+					"type": "boolean",
+					"default": true,
+					"description": "Toggle HTML minification."
+				},
+				"autominify.enableCssMinification": {
+					"type": "boolean",
+					"default": true,
+					"description": "Toggle CSS minification."
+				},
+				"autominify.enableJsMinification": {
+					"type": "boolean",
+					"default": true,
+					"description": "Toggle JavaScript minification."
+				},
+				"autominify.enableMinFileHtml": {
+					"type": "boolean",
+					"default": true,
+					"description": "Toggle minification for HTML files that already have 'min' in their filenames."
+				},
+				"autominify.enableMinFileCss": {
+					"type": "boolean",
+					"default": true,
+					"description": "Toggle minification for CSS files that already have 'min' in their filenames."
+				},
+				"autominify.enableMinFileJs": {
+					"type": "boolean",
+					"default": true,
+					"description": "Toggle minification for JavaScript files that already have 'min' in their filenames."
+				}
+			}
+		}
+	},
+	"configurationDefaults": {
+		"autominify.enableHtmlMinification": true,
+		"autominify.enableCssMinification": true,
+		"autominify.enableJsMinification": true,
+		"autominify.enableMinFileHtml": true,
+		"autominify.enableMinFileCss": true,
+		"autominify.enableMinFileJs": true
+	},
+	"dependencies": {
+		"clean-css": "^5.3.2",
+		"html-minifier": "^4.0.0",
+		"terser": "^5.19.0"
+	}
 }
