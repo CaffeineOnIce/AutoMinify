@@ -1,81 +1,107 @@
 {
-	"name": "autominify",
-	"displayName": "Auto-Minify",
-	"description": "Automatically creates a 'min' file of your HTML, CSS, and JS files on save",
-	"version": "1.0.9",
-	"repository": "https://github.com/caffeineonice/auto-minify",
-	"license": "MIT",
-	"icon": "icon.png",
-	"engines": {
-		"vscode": "^1.80.0"
-	},
-	"author": "CaffeineOnIce",
-	"publisher": "CaffeineOnIce",
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onLanguage:html",
-		"onLanguage:css",
-		"onLanguage:javascript",
-		"onDidSaveTextDocument"
-	],
-	"main": "./extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "autominify.minify",
-				"title": "Minify it"
-			}
-		],
-		"configuration": {
-			"title": "Auto-Minify",
-			"type": "object",
-			"properties": {
-				"autominify.enableHtmlMinification": {
-					"type": "boolean",
-					"default": true,
-					"description": "Toggle HTML minification."
-				},
-				"autominify.enableCssMinification": {
-					"type": "boolean",
-					"default": true,
-					"description": "Toggle CSS minification."
-				},
-				"autominify.enableJsMinification": {
-					"type": "boolean",
-					"default": true,
-					"description": "Toggle JavaScript minification."
-				},
-				"autominify.enableMinFileHtml": {
-					"type": "boolean",
-					"default": true,
-					"description": "Toggle minification for HTML files that already have 'min' in their filenames."
-				},
-				"autominify.enableMinFileCss": {
-					"type": "boolean",
-					"default": true,
-					"description": "Toggle minification for CSS files that already have 'min' in their filenames."
-				},
-				"autominify.enableMinFileJs": {
-					"type": "boolean",
-					"default": true,
-					"description": "Toggle minification for JavaScript files that already have 'min' in their filenames."
-				}
-			}
-		}
-	},
-	"configurationDefaults": {
-		"autominify.enableHtmlMinification": true,
-		"autominify.enableCssMinification": true,
-		"autominify.enableJsMinification": true,
-		"autominify.enableMinFileHtml": true,
-		"autominify.enableMinFileCss": true,
-		"autominify.enableMinFileJs": true
-	},
-	"dependencies": {
-		"clean-css": "^5.3.2",
-		"html-minifier": "^4.0.0",
-		"terser": "^5.19.0"
-	}
+    "name": "autominify",
+    "displayName": "Auto-Minify",
+    "description": "Automatically minify your HTML, CSS, and JS files on save",
+    "version": "1.10.1",
+    "repository": "https://github.com/caffeineonice/autominify",
+    "license": "MIT",
+    "icon": "icon.png",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "author": "CaffeineOnIce",
+    "publisher": "CaffeineOnIce",
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:html",
+        "onLanguage:css",
+        "onLanguage:javascript",
+        "onDidSaveTextDocument"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "autominify.minify",
+                "title": "Minify it"
+            }
+        ],
+        "configuration": {
+            "title": "Auto-Minify",
+            "type": "object",
+            "properties": {
+                "autominify.enableHtmlMinification": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Toggle HTML minification."
+                },
+                "autominify.enableMinFileHtml": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Toggle minification for HTML files that already have 'min' in their filenames."
+                },
+                "autominify.enableCssMinification": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Toggle CSS minification."
+                },
+                "autominify.enableMinFileCss": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Toggle minification for CSS files that already have 'min' in their filenames."
+                },
+                "autominify.enableJsMinification": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Toggle JavaScript minification."
+                },
+                "autominify.enableMinFileJs": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Toggle minification for JavaScript files that already have 'min' in their filenames."
+                },
+                "autominify.htmlminifier": {
+                    "type": "object",
+                    "default": {
+                        "caseSensitive": true,
+                        "collapseWhitespace": true,
+                        "collapseInlineTagWhitespace": true,
+                        "continueOnParseError": true,
+                        "removeComments": true,
+                        "removeAttributeQuotes": true,
+                        "minifyCSS": true,
+                        "minifyJS": true
+                    },
+                    "description": "Options for the HTML minifier."
+                },
+                "autominify.cleancss": {
+                    "type": "object",
+                    "default": {
+                        "level": {
+                            "1": {
+                                "all": true
+                            }
+                        }
+                    },
+                    "description": "Options for the CleanCSS minifier."
+                },
+                "autominify.terser": {
+                    "type": "object",
+                    "default": {
+                        "mangle": {
+                            "properties": false
+                        }
+                    },
+                    "description": "Options for the Terser minifier."
+                }
+            }
+        }
+    },
+    "dependencies": {
+        "clean-css": "^5.3.2",
+        "html-minifier": "^4.0.0",
+        "terser": "^5.19.2"
+    }
 }
