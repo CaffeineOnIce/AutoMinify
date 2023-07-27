@@ -29,7 +29,7 @@ Automatically minify your HTML, CSS and JS files to save space and bandwidth.
 
 # Heads-Up
 
-- I made this because the minifier I used [Minify](https://marketplace.visualstudio.com/items?itemName=HookyQR.minify) but it has not been updated for a while, and seems like it has been abandoned. So, I made an upgraded version of it.
+- I made this because the minifier I used, [Minify](https://marketplace.visualstudio.com/items?itemName=HookyQR.minify), has not been updated for a while, and seems like it has been abandoned. So, I made an upgraded version of it.
 - As it is based on the dependencies, any errors on minifying is entirely caused by the dependencies.
 - Any new features that are desired, please request them in the Issues tab. They are greatly welcomed.
 
