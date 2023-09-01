@@ -14,6 +14,7 @@
     "categories": [
         "Other"
     ],
+    "homepage": "https://github.com/CaffeineOnIce/AutoMinify/blob/main/README.md",
     "activationEvents": [
         "onLanguage:html",
         "onLanguage:css",
