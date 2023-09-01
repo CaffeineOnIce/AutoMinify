@@ -59,8 +59,6 @@ Please check the changelog for version updates.
 ### `terser` Options Utilized:
 ```json
 {
-	"mangle": {
-		"properties": false
-	}
+	"mangle": false
 }
 ```
