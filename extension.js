@@ -11,6 +11,11 @@ let enableJsMinification = true;
 let enableMinFileHtml = true;
 let enableMinFileCss = true;
 let enableMinFileJs = true;
+let enableSourceMaps = false;
+let enableSeparateFolderHtml = false; 
+let enableSeparateFolderCss = false; 
+let enableSeparateFolderJs = false;
+
 
 function activate(context) {
 	updateSettings();
@@ -29,10 +34,12 @@ function activate(context) {
 		}
 
 		let outputFile;
+		let sourceMapFile;
 
 		switch (languageId) {
 			case 'html':
-				outputFile = `${parentPath}/${path.parse(fileName).name}.min.html`;
+				outputFile = getOutputFilePath(parentPath, fileName, '.html', enableSeparateFolderHtml);
+
 				let minifiedHTML = minifyHTML(inputFile, {
 					caseSensitive: true,
 					collapseWhitespace: true,
@@ -45,28 +52,46 @@ function activate(context) {
 					minifyJS: true
 				});
 				await writeFile(outputFile, minifiedHTML);
+				console.clear(); 
 				vscode.window.setStatusBarMessage('HTML Minified', 2000);
 				break;
 
 			case 'css':
-				outputFile = `${parentPath}/${path.parse(fileName).name}.min.css`;
-				let minifiedCSS = new minifyCSS({ level: { 2: { all: true } } }).minify(inputFile);
+				outputFile = getOutputFilePath(parentPath, fileName, '.css', enableSeparateFolderCss);
+				let minifiedCSS = new minifyCSS({ 
+					level: { 
+						1: { 
+							all: true 
+						} 
+					} 
+				}).minify(inputFile);
 				await writeFile(outputFile, minifiedCSS.styles);
+				console.clear(); 
 				vscode.window.setStatusBarMessage('CSS Minified', 2000);
 				break;
 
 			case 'javascript':
-				outputFile = `${parentPath}/${path.parse(fileName).name}.min.js`;
-				let options = { mangle: { properties: false } };
+				outputFile = getOutputFilePath(parentPath, fileName, '.js', enableSeparateFolderJs);
+				sourceMapFile = `${outputFile}.map`;
+				let options = { 
+					mangle: false,
+					sourceMap: enableSourceMaps ? {
+						url: path.basename(sourceMapFile)
+					} : false
+				};
 				let minifiedJS = await minify(inputFile, options);
 				await writeFile(outputFile, minifiedJS.code);
+				if (enableSourceMaps) {
+					await writeFile(sourceMapFile, minifiedJS.map); 
+				}
+				console.clear(); 
 				vscode.window.setStatusBarMessage('JS Minified', 2000);
 				break;
 		}
 	});
 
 	context.subscriptions.push(vscode.commands.registerCommand('autominify.minify', () => {
-		// Code to run when the command is triggered
+		
 	}));
 
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration((event) => {
@@ -76,7 +101,11 @@ function activate(context) {
 			event.affectsConfiguration('autominify.enableJsMinification') ||
 			event.affectsConfiguration('autominify.enableMinFileHtml') ||
 			event.affectsConfiguration('autominify.enableMinFileCss') ||
-			event.affectsConfiguration('autominify.enableMinFileJs')
+			event.affectsConfiguration('autominify.enableMinFileJs') ||
+			event.affectsConfiguration('autominify.enableSourceMaps') ||
+			event.affectsConfiguration('autominify.enableSeparateFolderHtml') ||
+			event.affectsConfiguration('autominify.enableSeparateFolderCss') ||
+			event.affectsConfiguration('autominify.enableSeparateFolderJs')
 		) {
 			updateSettings();
 		}
@@ -93,6 +122,10 @@ function updateSettings() {
 	enableMinFileHtml = config.get('enableMinFileHtml', true);
 	enableMinFileCss = config.get('enableMinFileCss', true);
 	enableMinFileJs = config.get('enableMinFileJs', true);
+    enableSourceMaps = config.get('enableSourceMaps', false);
+    enableSeparateFolderHtml = config.get('enableSeparateFolderHtml', false);
+    enableSeparateFolderCss = config.get('enableSeparateFolderCss', false);
+    enableSeparateFolderJs = config.get('enableSeparateFolderJs', false);
 }
 
 function shouldMinify(languageId) {
@@ -143,6 +176,20 @@ async function writeFile(outputPath, content) {
 			}
 		});
 	});
+}
+
+function getOutputFilePath(parentPath, fileName, extension, enableSeparateFolder) {
+    const outputPathWithoutExtension = path.join(parentPath, `${path.parse(fileName).name}.min`);
+    
+    if (enableSeparateFolder) {
+        const minFolder = path.join(parentPath, 'min');
+        if (!fs.existsSync(minFolder)) {
+            fs.mkdirSync(minFolder);
+        }
+        return path.join(minFolder, `${path.parse(fileName).name}.min${extension}`);
+    } else {
+        return `${outputPathWithoutExtension}${extension}`;
+    }
 }
 
 module.exports = {

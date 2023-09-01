@@ -2,7 +2,7 @@
     "name": "autominify",
     "displayName": "Auto-Minify",
     "description": "Automatically minify your HTML, CSS, and JS files on save",
-    "version": "1.10.3",
+    "version": "2.0.0",
     "repository": "https://github.com/caffeineonice/autominify",
     "license": "MIT",
     "icon": "icon.png",
@@ -32,6 +32,8 @@
             "title": "Auto-Minify",
             "type": "object",
             "properties": {
+
+
                 "autominify.enableHtmlMinification": {
                     "type": "boolean",
                     "default": true,
@@ -42,6 +44,8 @@
                     "default": false,
                     "description": "Toggle minification for HTML files that already have 'min' in their filenames."
                 },
+
+
                 "autominify.enableCssMinification": {
                     "type": "boolean",
                     "default": true,
@@ -52,6 +56,8 @@
                     "default": false,
                     "description": "Toggle minification for CSS files that already have 'min' in their filenames."
                 },
+
+
                 "autominify.enableJsMinification": {
                     "type": "boolean",
                     "default": true,
@@ -62,6 +68,30 @@
                     "default": false,
                     "description": "Toggle minification for JavaScript files that already have 'min' in their filenames."
                 },
+                "autominify.enableSourceMaps": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Toggle source maps for JavaScript minification."
+                },
+
+
+                "autominify.enableSeparateFolderHtml": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Toggle saving minified HTML files in a 'min' folder."
+                },
+                "autominify.enableSeparateFolderCss": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Toggle saving minified CSS files in a 'min' folder."
+                },
+                "autominify.enableSeparateFolderJs": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Toggle saving minified JS files in a 'min' folder."
+                },
+
+
                 "autominify.htmlminifier": {
                     "type": "object",
                     "default": {
@@ -90,12 +120,12 @@
                 "autominify.terser": {
                     "type": "object",
                     "default": {
-                        "mangle": {
-                            "properties": false
-                        }
+                        "mangle": false
                     },
                     "description": "Options for the Terser minifier."
                 }
+
+
             }
         }
     },
@@ -103,5 +133,8 @@
         "clean-css": "^5.3.2",
         "html-minifier": "^4.0.0",
         "terser": "^5.19.2"
+    },
+    "devDependencies": {
+        "vscode": "^1.1.34"
     }
 }

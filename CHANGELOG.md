@@ -2,7 +2,20 @@
 
 All notable changes to the "autominify" extension will be documented in this file.
 
-## [Unreleased]
+## [2.0] - 2023-09-01
+
+### Added
+
+- Toggle for storing minified files in a seperate folder.
+- Clears the console.log() after minification.
+- Toggle for enabling terser source maps.
+
+### Fixed
+
+### Changed
+
+### Removed
+
 
 ## [1.10.3] - 2023-07-27
 
