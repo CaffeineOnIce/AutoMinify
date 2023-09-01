@@ -2,7 +2,7 @@
     "name": "autominify",
     "displayName": "Auto-Minify",
     "description": "Automatically minify your HTML, CSS, and JS files on save",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "repository": "https://github.com/caffeineonice/autominify",
     "license": "MIT",
     "icon": "icon.png",
