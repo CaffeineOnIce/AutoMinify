@@ -2,6 +2,20 @@
 
 All notable changes to the "autominify" extension will be documented in this file.
 
+## [2.2.2] - 2023-12-31 (owhs)
+
+### Added
+
+- Extension option to list "root" folder names, where minification will only run when saving to a path inlcuding the folder. lol idk hopefully this makes sense.
+- Toggle so minification saves to new folder under Root path
+
+### Fixed
+
+### Changed
+
+### Removed
+
+
 ## [2.0] - 2023-09-01
 
 ### Added

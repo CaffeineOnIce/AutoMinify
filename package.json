@@ -2,7 +2,7 @@
     "name": "autominify",
     "displayName": "Auto-Minify",
     "description": "Automatically minify your HTML, CSS, and JS files on save",
-    "version": "2.2.1",
+    "version": "2.2.2",
     "repository": "https://github.com/caffeineonice/autominify",
     "license": "MIT",
     "icon": "icon.png",
@@ -33,10 +33,15 @@
             "title": "Auto-Minify",
             "type": "object",
             "properties": {
-                "autominify.onlyParent": {
+                "autominify.rootPathName": {
                     "type": "string",
                     "default": "",
                     "description": "Only run under paths containing (split with comma). EG: public,dist"
+                },
+                "autominify.rootChangeRootName": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Minify to new path under root"
                 },
                 "autominify.enableHtmlMinification": {
                     "type": "boolean",
