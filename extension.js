@@ -5,6 +5,7 @@ const minifyHTML = require('html-minifier').minify;
 const fs = require('fs');
 const path = require('path');
 
+let onlyParent = "";
 let enableHtmlMinification = true;
 let enableCssMinification = true;
 let enableJsMinification = true;
@@ -24,7 +25,11 @@ function activate(context) {
 		const { languageId, fileName } = document;
 		const parentPath = path.parse(fileName).dir;
 		const inputFile = document.getText();
-
+		
+		if (onlyParent.length>0 && onlyParent.split(",").filter(f=>parentPath.includes(f)).length===0) {
+			return;
+		}
+				
 		if (!shouldMinify(languageId)) {
 			return;
 		}
@@ -96,6 +101,7 @@ function activate(context) {
 
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration((event) => {
 		if (
+			event.affectsConfiguration('autominify.onlyParent') ||
 			event.affectsConfiguration('autominify.enableHtmlMinification') ||
 			event.affectsConfiguration('autominify.enableCssMinification') ||
 			event.affectsConfiguration('autominify.enableJsMinification') ||
@@ -116,6 +122,7 @@ function deactivate() {}
 
 function updateSettings() {
 	const config = vscode.workspace.getConfiguration('autominify');
+	onlyParent = config.get('onlyParent', "");
 	enableHtmlMinification = config.get('enableHtmlMinification', true);
 	enableCssMinification = config.get('enableCssMinification', true);
 	enableJsMinification = config.get('enableJsMinification', true);
