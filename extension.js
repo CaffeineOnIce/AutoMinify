@@ -5,6 +5,8 @@ const minifyHTML = require('html-minifier').minify;
 const fs = require('fs');
 const path = require('path');
 
+let onlyParent = "";
+let rootChangeRootName = false;
 let enableHtmlMinification = true;
 let enableCssMinification = true;
 let enableJsMinification = true;
@@ -22,9 +24,32 @@ function activate(context) {
 
 	vscode.workspace.onDidSaveTextDocument(async (document) => {
 		const { languageId, fileName } = document;
-		const parentPath = path.parse(fileName).dir;
+		var parentPath = path.parse(fileName).dir;
 		const inputFile = document.getText();
+		
+		if (onlyParent.length>0 && onlyParent.split(",").filter(f=>parentPath.includes(f)).length===0) {
+			return;
+		} else if (onlyParent.length>0 && rootChangeRootName===true) {
+		    var root = onlyParent.split(",").filter(f=>parentPath.includes(f))[0];
+			if (root) {
+				var rootPath = parentPath.replace(new RegExp(root + "(.*$)", "gi"), root),
+				    rootMin = path.join(rootPath + "\\min"),
+				    structure = parentPath.replace(rootPath, "").replace(/^\\/, "");
+				parentPath = path.join(rootPath + "\\min\\" + structure);
 
+				if (!fs.existsSync(rootMin)) {
+					fs.mkdirSync(rootMin);
+				}
+
+				structure.split("\\").forEach(s=>{
+					rootMin = path.join(rootMin + "\\" + s);
+					if (!fs.existsSync(rootMin)) {
+						fs.mkdirSync(rootMin);
+					}
+				});
+			}
+		}
+				
 		if (!shouldMinify(languageId)) {
 			return;
 		}
@@ -96,6 +121,8 @@ function activate(context) {
 
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration((event) => {
 		if (
+			event.affectsConfiguration('autominify.rootPathName') ||
+			event.affectsConfiguration('autominify.rootChangeRootName') ||
 			event.affectsConfiguration('autominify.enableHtmlMinification') ||
 			event.affectsConfiguration('autominify.enableCssMinification') ||
 			event.affectsConfiguration('autominify.enableJsMinification') ||
@@ -116,6 +143,8 @@ function deactivate() {}
 
 function updateSettings() {
 	const config = vscode.workspace.getConfiguration('autominify');
+	onlyParent = config.get('rootPathName', "");
+	rootChangeRootName = config.get('rootChangeRootName', false);
 	enableHtmlMinification = config.get('enableHtmlMinification', true);
 	enableCssMinification = config.get('enableCssMinification', true);
 	enableJsMinification = config.get('enableJsMinification', true);
@@ -179,14 +208,14 @@ async function writeFile(outputPath, content) {
 }
 
 function getOutputFilePath(parentPath, fileName, extension, enableSeparateFolder) {
-    const outputPathWithoutExtension = path.join(parentPath, `${path.parse(fileName).name}.min`);
-    
+    const outputPathWithoutExtension = path.join(parentPath, `${path.parse(fileName).name}`+(!rootChangeRootName? `.min` : ""));
+    console.log(outputPathWithoutExtension);
     if (enableSeparateFolder) {
         const minFolder = path.join(parentPath, 'min');
         if (!fs.existsSync(minFolder)) {
             fs.mkdirSync(minFolder);
         }
-        return path.join(minFolder, `${path.parse(fileName).name}.min${extension}`);
+        return path.join(minFolder, `${path.parse(fileName).name}`+(!rootChangeRootName? `.min` : "")+`${extension}`);
     } else {
         return `${outputPathWithoutExtension}${extension}`;
     }
