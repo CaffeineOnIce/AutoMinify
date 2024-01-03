@@ -33,9 +33,9 @@
                 "autominify.rootPathName": {
                     "type": "string",
                     "default": "",
-                    "description": "Only run under paths containing (split with comma). EG: public,dist"
+                    "description": "Only run under paths containing (split with comma). Example = public,dist"
                 },
-                "autominify.rootChangeRootName": {
+                "autominify.changeRootName": {
                     "type": "boolean",
                     "default": false,
                     "description": "Minify to new path under root"
