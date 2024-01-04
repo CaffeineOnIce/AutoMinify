@@ -2,7 +2,7 @@
     "name": "autominify",
     "displayName": "Auto-Minify",
     "description": "Automatically minify your HTML, CSS, and JS files on save",
-    "version": "2.4.0",
+    "version": "2.3.1",
     "repository": "https://github.com/caffeineonice/autominify",
     "license": "MIT",
     "icon": "icon.png",
@@ -14,8 +14,8 @@
     "homepage": "https://github.com/CaffeineOnIce/AutoMinify/blob/main/README.md",
     "activationEvents": [
         "onLanguage:html",
-        "onLanguage:css",
         "onLanguage:javascript",
+        "onLanguage:css",
         "onDidSaveTextDocument"
     ],
     "main": "./extension.js",
@@ -30,112 +30,55 @@
             "title": "Auto-Minify",
             "type": "object",
             "properties": {
-                "autominify.rootPathName": {
-                    "type": "string",
-                    "default": "",
-                    "description": "Only run under paths containing (split with comma). Example = public,dist"
-                },
-                "autominify.changeRootName": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Minify to new path under root"
-                },
-                "autominify.enableHtmlMinification": {
+                "autominify.enableHTMLMinification": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Toggle HTML minification."
+                    "description": "Minify HTML"
                 },
-                "autominify.enableMinFileHtml": {
+                "autominify.enableSeparateFolderHTML": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Toggle minification for HTML files that already have 'min' in their filenames."
+                    "description": "Save minified HTML files in a 'min' folder"
                 },
-                "autominify.enableCssMinification": {
+                "autominify.enableJSMinification": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Toggle CSS minification."
+                    "description": "Minify JS"
                 },
-                "autominify.enableMinFileCss": {
+                "autominify.enableSeparateFolderJS": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Toggle minification for CSS files that already have 'min' in their filenames."
+                    "description": "Save minified JS files in a 'min' folder"
                 },
-                "autominify.enableJsMinification": {
+                "autominify.enableCSSMinification": {
                     "type": "boolean",
                     "default": true,
-                    "description": "Toggle JavaScript minification."
+                    "description": "Minify CSS"
                 },
-                "autominify.enableMinFileJs": {
+                "autominify.enableSeparateFolderCSS": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Toggle minification for JavaScript files that already have 'min' in their filenames."
+                    "description": "Save minified CSS files in a 'min' folder"
                 },
-                "autominify.enableSourceMaps": {
+                "autominify.enableShowInPreviewOnly": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Toggle source maps for JavaScript minification."
-                },
-                "autominify.enableSeparateFolderHtml": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Toggle saving minified HTML files in a 'min' folder."
-                },
-                "autominify.enableSeparateFolderCss": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Toggle saving minified CSS files in a 'min' folder."
-                },
-                "autominify.enableSeparateFolderJs": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Toggle saving minified JS files in a 'min' folder."
-                },
-                "autominify.htmlminifier": {
-                    "type": "object",
-                    "default": {
-                        "caseSensitive": true,
-                        "collapseWhitespace": true,
-                        "collapseInlineTagWhitespace": true,
-                        "continueOnParseError": true,
-                        "removeComments": true,
-                        "removeAttributeQuotes": true,
-                        "minifyCSS": true,
-                        "minifyJS": true
-                    },
-                    "description": "Options for the HTML minifier."
-                },
-                "autominify.cleancss": {
-                    "type": "object",
-                    "default": {
-                        "level": {
-                            "1": {
-                                "all": true
-                            }
-                        }
-                    },
-                    "description": "Options for the CleanCSS minifier."
-                },
-                "autominify.terser": {
-                    "type": "object",
-                    "default": {
-                        "mangle": false
-                    },
-                    "description": "Options for the Terser minifier."
+                    "description": "Preview without saving the file"
                 }
             }
         }
     },
     "dependencies": {
         "clean-css": "^5.3.3",
-        "html-minifier": "^4.0.0",
+        "html-minifier-terser": "^7.2.0",
         "terser": "^5.26.0"
     },
     "devDependencies": {
         "@types/node": "^14.14.41",
-        "@types/vscode": "^1.60.0",
+        "@types/vscode": "^1.85.0",
         "@vscode/vsce": "^2.22.0"
     },
     "engines": {
-        "vscode": "^1.60.0"
+        "vscode": "^1.85.0"
     }
 }
