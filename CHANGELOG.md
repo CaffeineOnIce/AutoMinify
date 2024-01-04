@@ -2,6 +2,28 @@
 
 All notable changes to the "autominify" extension will be documented in this file.
 
+
+## [3.0] - 2023-12-31 
+
+### Added
+
+- A preview pane for the minified file without saving it, as requested by @3xploiton3
+
+### Fixed
+
+- Pollution problems from minimist has been fixed.
+
+### Changed
+
+- html-minifier has been changed to html-minifier-terser for use.
+- A near complete rewrite of the whole code to fix some bugs and error.
+
+### Removed
+
+- Changes made by @owhs are removed due to them not working while extension being run. It will be implemented if needed in future updates.
+- html-minifier has been removed due to no updates for 2 years by its developer.
+
+
 ## [2.2.2] - 2023-12-31 (owhs)
 
 ### Added

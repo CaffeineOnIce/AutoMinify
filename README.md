@@ -4,7 +4,7 @@ Automatically minify your HTML, CSS, and JS files to optimize space and bandwidt
 
 ## Features
 
-- Automatically generates a `.min.html`, `.min.css`, or `.min.js` file each time you save a `.html`, `.css`, or `.js` file.  
+- Automatically generates a `.min.html`, `.min.css`, or `.min.js` file each time you save a `.html`, `.css`, or `.js` file.
   For example: `styles.css` becomes `styles.min.css`.
 
 ## Basic Usage
@@ -16,7 +16,7 @@ Automatically minify your HTML, CSS, and JS files to optimize space and bandwidt
 
 ## Dependencies Utilized
 
-- **HTML:** [html-minifier](https://github.com/kangax/html-minifier)
+- **HTML:** [html-minifier-terser](https://github.com/terser/html-minifier-terser)
 - **CSS:** [clean-css](https://github.com/clean-css/clean-css/)
 - **JS:** [terser](https://github.com/terser/terser/)
 
@@ -28,20 +28,28 @@ Please check the changelog for version updates.
 - Any errors encountered during minification are likely caused by the underlying dependencies.
 - If you have any feature requests or suggestions, please submit them in the Issues tab; your input is highly appreciated.
 
-**Note:** Any additional options not provided below are defaulted to their respective values in the code.
+**Note:** Any additional options not provided below are defaulted to their respective values in their original code.
 
-### `html-minifier` Options Utilized:
+### `html-minifier-terser` Options Utilized:
 ```json
 {
-  "caseSensitive": true,
-  "collapseWhitespace": true,
-  "collapseInlineTagWhitespace": true,
-  "continueOnParseError": true,
-  "removeComments": true,
-  "removeAttributeQuotes": true,
-  "removeRedundantAttributes": true,
-  "minifyCSS": true,
-  "minifyJS": true
+    removeAttributeQuotes: true,
+    removeComments: true,
+    removeEmptyElements: true,
+    removeOptionalTags: true,
+    removeRedundantAttributes: true,
+
+    collapseWhitespace: true,
+    conservativeCollapse: true,
+
+    caseSensitive: true,
+    continueOnParseError: true,
+    collapseBooleanAttributes: true,
+    processConditionalComments: true,
+
+    minifyCSS: true,
+    minifyJS: true,
+    html5: true
 }
 ```
 
