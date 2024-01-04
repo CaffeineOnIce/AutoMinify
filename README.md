@@ -33,23 +33,23 @@ Please check the changelog for version updates.
 ### `html-minifier-terser` Options Utilized:
 ```json
 {
-    removeAttributeQuotes: true,
-    removeComments: true,
-    removeEmptyElements: true,
-    removeOptionalTags: true,
-    removeRedundantAttributes: true,
+    "removeAttributeQuotes": true,
+    "removeComments": true,
+    "removeEmptyElements": true,
+    "removeOptionalTags": true,
+    "removeRedundantAttributes": true,
 
-    collapseWhitespace: true,
-    conservativeCollapse: true,
+    "collapseWhitespace": true,
+    "conservativeCollapse": true,
 
-    caseSensitive: true,
-    continueOnParseError: true,
-    collapseBooleanAttributes: true,
-    processConditionalComments: true,
+    "caseSensitive": true,
+    "continueOnParseError": true,
+    "collapseBooleanAttributes": true,
+    "processConditionalComments": true,
 
-    minifyCSS: true,
-    minifyJS: true,
-    html5: true
+    "minifyCSS": true,
+    "minifyJS": true,
+    "html5": true
 }
 ```
 
