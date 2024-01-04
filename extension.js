@@ -142,7 +142,6 @@ function updateSettings() {
 	enableSeparateFolderHTML = config.get('enableSeparateFolderHTML', false);
 	enableSeparateFolderJS = config.get('enableSeparateFolderJS', false);
 	enableSeparateFolderCSS = config.get('enableSeparateFolderCSS', false);
-
 }
 
 // preview pane 
@@ -187,13 +186,10 @@ function shouldMinify(languageId) {
 	switch (languageId) {
 		case 'html':
 			return enableHTMLMinification;
-
 		case 'javascript':
 			return enableJSMinification;
-
 		case 'css':
 			return enableCSSMinification;
-
 		default:
 			return false;
 	}
