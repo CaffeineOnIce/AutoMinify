@@ -24,7 +24,7 @@ Please check the changelog for version updates.
 
 ## Heads-Up
 
-- This extension was created because the previously used minifier, [Minify](https://marketplace.visualstudio.com/items?itemName=HookyQR.minify), had not been updated for a while and appeared to be abandoned. This is an improved version.
+- This extension was created because the my previously used minifier, [Minify](https://marketplace.visualstudio.com/items?itemName=HookyQR.minify), had not been updated for a while and appears to be abandoned. This is an improved version.
 - Any errors encountered during minification are likely caused by the underlying dependencies.
 - If you have any feature requests or suggestions, please submit them in the Issues tab; your input is highly appreciated.
 
