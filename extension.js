@@ -9,6 +9,8 @@ const { minify: minifyHTML } = require('html-minifier-terser');
 const { minify: minifyJS } = require('terser');
 const minifyCSS = require('clean-css');
 
+let onlyMinUnderSubFolder = "";
+
 let enableHTMLMinification = true;
 let enableJSMinification = true;
 let enableCSSMinification = true;
@@ -117,6 +119,8 @@ function activate(context) {
 
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration((event) => {
 		if (
+			event.affectsConfiguration('autominify.onlyMinUnderSubFolder') ||
+
 			event.affectsConfiguration('autominify.enableHTMLMinification') ||
 			event.affectsConfiguration('autominify.enableJSMinification') ||
 			event.affectsConfiguration('autominify.enableCSSMinification') ||
@@ -204,9 +208,13 @@ function activate(context) {
 				return false;
 		}
 	}
-
+	
 	function shouldSkipMinification(fileName) {
-		return fileName.includes('.min.html') || fileName.includes('.min.js') || fileName.includes('.min.css');
+		const hasMinName = fileName.includes('.min.html') || fileName.includes('.min.js') || fileName.includes('.min.css'),
+			split = fileName.split("\\");
+		
+		// if "onlyMinUnderSubFolder" empty, just respond with hasMinName (original check), otherwise 
+		return onlyMinUnderSubFolder.length>0 && !hasMinName ? onlyMinUnderSubFolder.split(",").filter(folderName=>split.includes(folderName)).length===0 : hasMinName;
 	}
 
 	function getOutputFilePath(parentPath, fileName, extension, enableSeparateFolder) {
@@ -227,6 +235,8 @@ function activate(context) {
 function updateSettings() {
 	const config = vscode.workspace.getConfiguration('autominify');
 	enableShowInPreviewOnly = config.get('enableShowInPreviewOnly', false);
+
+	onlyMinUnderSubFolder = config.get('onlyMinUnderSubFolder', "");
 
 	enableHTMLMinification = config.get('enableHTMLMinification', true);
 	enableJSMinification = config.get('enableJSMinification', true);

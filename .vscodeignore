@@ -7,3 +7,14 @@ vsc-extension-quickstart.md
 **/jsconfig.json
 **/*.map
 **/.eslintrc.json
+
+*.min.js
+node_modules/**/*.md
+node_modules/**/LICENSE*
+node_modules/**/license
+node_modules/**/*.txt
+# remove ts?
+node_modules/**/*.ts
+node_modules/**/*.mts
+node_modules/**/*.d.ts
+node_modules/**/*.mjs
