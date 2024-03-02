@@ -1,122 +1,129 @@
 {
-    "name": "autominify",
-    "displayName": "Auto-Minify",
-    "description": "Automatically minify your HTML, CSS, and JS files on save",
-    "version": "3.0.0",
-    "repository": "https://github.com/caffeineonice/autominify",
-    "license": "MIT",
-    "icon": "icon.png",
-    "author": "CaffeineOnIce",
-    "publisher": "CaffeineOnIce",
-    "categories": [
-        "Other"
+  "name": "autominify",
+  "displayName": "Auto-Minify",
+  "description": "Automatically minify your HTML, CSS, and JS files on save",
+  "version": "3.0.1",
+  "repository": "https://github.com/caffeineonice/autominify",
+  "license": "MIT",
+  "icon": "icon.png",
+  "author": "CaffeineOnIce",
+  "publisher": "CaffeineOnIce",
+  "categories": [
+    "Other"
+  ],
+  "homepage": "https://github.com/CaffeineOnIce/AutoMinify/blob/main/README.md",
+  "activationEvents": [
+    "onLanguage:html",
+    "onLanguage:javascript",
+    "onLanguage:css",
+    "onDidSaveTextDocument"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "autominify.minify",
+        "title": "Minify it"
+      }
     ],
-    "homepage": "https://github.com/CaffeineOnIce/AutoMinify/blob/main/README.md",
-    "activationEvents": [
-        "onLanguage:html",
-        "onLanguage:javascript",
-        "onLanguage:css",
-        "onDidSaveTextDocument"
-    ],
-    "main": "./extension.js",
-    "contributes": {
-        "commands": [
-            {
-                "command": "autominify.minify",
-                "title": "Minify it"
+    "configuration": {
+      "title": "Auto-Minify",
+      "type": "object",
+      "properties": {
+        "autominify.enableHTMLMinification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Minify HTML"
+        },
+        "autominify.enableSeparateFolderHTML": {
+          "type": "boolean",
+          "default": false,
+          "description": "Save minified HTML files in a 'min' folder"
+        },
+        "autominify.enableJSMinification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Minify JS"
+        },
+        "autominify.enableSeparateFolderJS": {
+          "type": "boolean",
+          "default": false,
+          "description": "Save minified JS files in a 'min' folder"
+        },
+        "autominify.enableCSSMinification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Minify CSS"
+        },
+        "autominify.enableSeparateFolderCSS": {
+          "type": "boolean",
+          "default": false,
+          "description": "Save minified CSS files in a 'min' folder"
+        },
+        "autominify.enableShowInPreviewOnly": {
+          "type": "boolean",
+          "default": false,
+          "description": "Preview without saving the file"
+        },
+        "autominify.onlyMinUnderSubFolder": {
+          "type": "string",
+          "default": "",
+          "description": "Only minify under subfolder(s) (comma seperated list)"
+        },
+        "autominify.htmlMinifierOptions": {
+          "type": "object",
+          "default": {
+            "removeComments": true,
+            "removeEmptyElements": true,
+            "removeOptionalTags": true,
+            "removeRedundantAttributes": true,
+            "collapseWhitespace": true,
+            "conservativeCollapse": true,
+            "caseSensitive": true,
+            "continueOnParseError": true,
+            "collapseBooleanAttributes": true,
+            "processConditionalComments": true,
+            "minifyCSS": true,
+            "minifyJS": true,
+            "html5": true
+          },
+          "description": "HTML Minifier options"
+        },
+        "autominify.cssMinifierOptions": {
+          "type": "object",
+          "default": {
+            "level": {
+              "1": {
+                "all": true
+              }
             }
-        ],
-        "configuration": {
-            "title": "Auto-Minify",
-            "type": "object",
-            "properties": {
-                "autominify.enableHTMLMinification": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Minify HTML"
-                },
-                "autominify.enableSeparateFolderHTML": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Save minified HTML files in a 'min' folder"
-                },
-                "autominify.enableJSMinification": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Minify JS"
-                },
-                "autominify.enableSeparateFolderJS": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Save minified JS files in a 'min' folder"
-                },
-                "autominify.enableCSSMinification": {
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Minify CSS"
-                },
-                "autominify.enableSeparateFolderCSS": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Save minified CSS files in a 'min' folder"
-                },
-                "autominify.enableShowInPreviewOnly": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Preview without saving the file"
-                },
-
-				"autominify.htmlMinifierOptions": {
-					"type": "object",
-					"default": {
-						"removeComments": true,
-						"removeEmptyElements": true,
-						"removeOptionalTags": true,
-						"removeRedundantAttributes": true,
-						"collapseWhitespace": true,
-						"conservativeCollapse": true,
-						"caseSensitive": true,
-						"continueOnParseError": true,
-						"collapseBooleanAttributes": true,
-						"processConditionalComments": true,
-						"minifyCSS": true,
-						"minifyJS": true,
-						"html5": true
-					},
-					"description": "HTML Minifier options"
-				},
-				"autominify.cssMinifierOptions": {
-					"type": "object",
-					"default": {
-						"level": {
-							"1": {
-								"all": true
-							}
-						}
-					},
-					"description": "Clean-CSS options"
-				},
-				"autominify.jsMinifierOptions": {
-					"type": "object",
-					"default": {
-						"mangle": false
-					},
-					"description": "Terser options"
-				}
-            }
+          },
+          "description": "Clean-CSS options"
+        },
+        "autominify.jsMinifierOptions": {
+          "type": "object",
+          "default": {
+            "mangle": false
+          },
+          "description": "Terser options"
         }
-    },
-    "dependencies": {
-        "clean-css": "^5.3.3",
-        "html-minifier-terser": "^7.2.0",
-        "terser": "^5.26.0"
-    },
-    "devDependencies": {
-        "@types/node": "^14.14.41",
-        "@types/vscode": "^1.85.0",
-        "@vscode/vsce": "^2.22.0"
-    },
-    "engines": {
-        "vscode": "^1.85.0"
+      }
     }
+  },
+  "dependencies": {
+    "clean-css": "^5.3.3",
+    "html-minifier-terser": "^7.2.0",
+    "terser": "^5.26.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.41",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "mocha": "^10.3.0",
+    "@vscode/test-electron": "^2.3.9",
+    "3": "^2.1.0"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  }
 }
