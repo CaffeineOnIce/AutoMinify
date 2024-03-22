@@ -7,7 +7,9 @@ const path = require('path');
 
 const { minify: minifyHTML } = require('html-minifier-terser');
 const { minify: minifyJS } = require('terser');
-const minifyCSS = require('clean-css');
+
+const { cssFormatter } = require('the-minifier');
+
 
 let onlyMinUnderSubFolder = "";
 
@@ -22,6 +24,7 @@ let enableSeparateFolderCSS = false;
 let enableShowInPreviewOnly = false;
 
 let currentPanel;
+
 
 let htmlMinifierOptions = {
 	removeAttributeQuotes: true,
@@ -43,13 +46,6 @@ let htmlMinifierOptions = {
 	html5: true
 };
 
-let cssMinifierOptions = {
-	level: {
-		1: {
-			all: true
-		}
-	}
-};
 
 let jsMinifierOptions = {
 	mangle: false
@@ -131,7 +127,6 @@ function activate(context) {
 
 			event.affectsConfiguration('autominify.enableShowInPreviewOnly') ||
 			event.affectsConfiguration('autominify.htmlMinifierOptions') ||
-			event.affectsConfiguration('autominify.cssMinifierOptions') ||
 			event.affectsConfiguration('autominify.jsMinifierOptions')
 		) {
 			updateSettings();
@@ -147,8 +142,7 @@ function activate(context) {
 	}
 
 	async function minifyCSSContent(inputFile) {
-		const minifiedCSS = new minifyCSS(cssMinifierOptions).minify(inputFile);
-		return minifiedCSS.styles;
+		return cssFormatter(inputFile);
 	}
 
 	async function writeFile(outputPath, content) {
@@ -247,7 +241,6 @@ function updateSettings() {
 	enableSeparateFolderCSS = config.get('enableSeparateFolderCSS', false);
 
 	htmlMinifierOptions = config.get('htmlMinifierOptions', htmlMinifierOptions);
-	cssMinifierOptions = config.get('cssMinifierOptions', cssMinifierOptions);
 	jsMinifierOptions = config.get('jsMinifierOptions', jsMinifierOptions);
 }
 
