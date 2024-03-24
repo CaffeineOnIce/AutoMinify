@@ -2,7 +2,7 @@
   "name": "autominify",
   "displayName": "Auto-Minify",
   "description": "Automatically minify your HTML, CSS, and JS files on save",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "repository": "https://github.com/caffeineonice/autominify",
   "license": "MIT",
   "icon": "icon.png",
@@ -89,6 +89,22 @@
           },
           "description": "HTML Minifier options"
         },
+        "autominify.cssMinifierOptions": {
+          "type": "object",
+          "default": {
+            "level": {
+              "1": {
+                "all": true
+              }
+            }
+          },
+          "description": "Clean-CSS options"
+        },
+        "autominify.cssLegacyMinifier": {
+          "type": "boolean",
+          "default": false,
+          "description": "LegacyMinifier"
+        },
         "autominify.jsMinifierOptions": {
           "type": "object",
           "default": {
@@ -100,6 +116,7 @@
     }
   },
   "dependencies": {
+    "clean-css": "^5.3.3",
     "html-minifier-terser": "^7.2.0",
     "terser": "^5.26.0",
     "the-minifier": "^1.2.2"
