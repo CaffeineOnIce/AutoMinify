@@ -1,0 +1,44 @@
+name: Package and Release VS Code Extension
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Install vsce
+      run: npm install -g @vscode/vsce
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Package extension
+      run: vsce package
+
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: "*.vsix"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload release asset
+      uses: actions/upload-artifact@v2
+      with:
+        name: vsix
+        path: '*.vsix'
