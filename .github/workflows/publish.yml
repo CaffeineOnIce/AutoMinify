@@ -22,25 +22,24 @@ jobs:
         node-version: '20.10.0'
 
     - name: Install vsce
-      run: npm install -g @vscode/vsce
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Package extension
-      run: vsce package
-
-    - name: Create Git tag
       run: |
-        tag_name=v$(date +'%Y.%m.%d') # Example: v2024.08.18
-        git tag $tag_name
-        git push origin $tag_name
+        npm install -g @vscode/vsce
+        npm install
+        vsce package
 
-    - name: Create GitHub release
+    - name: Tag
+      if: startsWith(github.ref, 'refs/heads/release/')
+      run: |
+        git tag "v$env:GitVersion_SemVer"
+        git push origin "v$env:GitVersion_SemVer"
+
+    - name: Release
+      if: startsWith(github.ref, 'refs/heads/release/')
       uses: softprops/action-gh-release@v1
       with:
-        files: "*.vsix"
-        tag_name: ${{ steps.create_tag.outputs.tag_name }}
+        name: v${{ env.GitVersion_SemVer }}
+        prerelease: ${{ env.GitVersion_PreReleaseLabel != '' }}
+        files: ./artifacts/sidekick-*.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
