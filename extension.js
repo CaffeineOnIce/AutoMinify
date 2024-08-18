@@ -8,12 +8,14 @@ const path = require('path');
 const { minify: minifyHTML } = require('html-minifier-terser');
 const { minify: minifyJS } = require('terser');
 const minifyCSS = require('clean-css');
+const { cssFormatter } = require('the-minifier');
 
 let onlyMinUnderSubFolder = "";
 
 let enableHTMLMinification = true;
 let enableJSMinification = true;
 let enableCSSMinification = true;
+let cssLegacyMinifier = false;
 
 let enableSeparateFolderHTML = false;
 let enableSeparateFolderJS = false;
@@ -124,6 +126,7 @@ function activate(context) {
 			event.affectsConfiguration('autominify.enableHTMLMinification') ||
 			event.affectsConfiguration('autominify.enableJSMinification') ||
 			event.affectsConfiguration('autominify.enableCSSMinification') ||
+			event.affectsConfiguration('autominify.cssLegacyMinifier') ||
 
 			event.affectsConfiguration('autominify.enableSeparateFolderHTML') ||
 			event.affectsConfiguration('autominify.enableSeparateFolderJS') ||
@@ -147,8 +150,8 @@ function activate(context) {
 	}
 
 	async function minifyCSSContent(inputFile) {
-		const minifiedCSS = new minifyCSS(cssMinifierOptions).minify(inputFile);
-		return minifiedCSS.styles;
+		if (cssLegacyMinifier) return cssFormatter(inputFile);
+		else return (new minifyCSS(cssMinifierOptions).minify(inputFile)).styles;
 	}
 
 	async function writeFile(outputPath, content) {
@@ -241,6 +244,7 @@ function updateSettings() {
 	enableHTMLMinification = config.get('enableHTMLMinification', true);
 	enableJSMinification = config.get('enableJSMinification', true);
 	enableCSSMinification = config.get('enableCSSMinification', true);
+	cssLegacyMinifier = config.get('cssLegacyMinifier', true);
 
 	enableSeparateFolderHTML = config.get('enableSeparateFolderHTML', false);
 	enableSeparateFolderJS = config.get('enableSeparateFolderJS', false);
