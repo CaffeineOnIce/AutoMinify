@@ -30,6 +30,12 @@ jobs:
     - name: Package extension
       run: vsce package
 
+    - name: Create Git tag
+      run: |
+        tag_name=v$(date +'%Y.%m.%d') # Example: v2024.08.18
+        git tag $tag_name
+        git push origin $tag_name
+
     - name: Create GitHub release
       uses: softprops/action-gh-release@v1
       with:
