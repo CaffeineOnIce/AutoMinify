@@ -6,3 +6,4 @@ bun.lockb
 yarn.lock
 *.min*
 tests
+.github/
