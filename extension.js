@@ -213,11 +213,18 @@ function activate(context) {
 	}
 	
 	function shouldSkipMinification(fileName) {
-		const hasMinName = fileName.includes('.min.html') || fileName.includes('.min.js') || fileName.includes('.min.css'),
-			split = fileName.split("\\");
-		
-		// if "onlyMinUnderSubFolder" empty, just respond with hasMinName (original check), otherwise 
-		return onlyMinUnderSubFolder.length>0 && !hasMinName ? onlyMinUnderSubFolder.split(",").filter(folderName=>split.includes(folderName)).length===0 : hasMinName;
+		const parts = path.normalize(fileName).split(path.sep);
+		const baseName = path.basename(fileName);
+		const hasMinName = baseName.includes('.min.');
+		if(hasMinName) return true;
+		if(onlyMinUnderSubFolder.length > 0) {
+			const allowedFolders = onlyMinUnderSubFolder
+				.split(',')
+				.map(folder => folder.trim())
+				.filter(Boolean);
+			return !allowedFolders.some(folder => parts.includes(folder));
+		}
+		return false;
 	}
 
 	function getOutputFilePath(parentPath, fileName, extension, enableSeparateFolder) {

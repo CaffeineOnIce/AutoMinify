@@ -1,17 +1,17 @@
 {
-  "name": "autominify",
-  "displayName": "Auto-Minify",
-  "description": "Automatically minify your HTML, CSS, and JS files on save",
-  "version": "3.0.3",
-  "repository": "https://github.com/caffeineonice/autominify",
+  "name": "autominifyfiles",
+  "displayName": "Auto-Minify (Windows & Mac)",
+  "description": "Automatically minify your HTML, CSS, and JS files on save on both Windows and MacOS/Unix.",
+  "version": "3.0.5",
+  "repository": "https://github.com/faxes/autominify",
   "license": "MIT",
   "icon": "icon.png",
-  "author": "CaffeineOnIce",
-  "publisher": "CaffeineOnIce",
+  "author": "FAXES",
+  "publisher": "FAXES",
   "categories": [
     "Other"
   ],
-  "homepage": "https://github.com/CaffeineOnIce/AutoMinify/blob/main/README.md",
+  "homepage": "https://github.com/faxes/AutoMinify/blob/main/README.md",
   "activationEvents": [
     "onLanguage:html",
     "onLanguage:javascript",
@@ -22,7 +22,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "autominify.minify",
+        "command": "autominifyfiles.minify",
         "title": "Minify it"
       }
     ],
@@ -30,47 +30,47 @@
       "title": "Auto-Minify",
       "type": "object",
       "properties": {
-        "autominify.enableHTMLMinification": {
+        "autominifyfiles.enableHTMLMinification": {
           "type": "boolean",
           "default": true,
           "description": "Minify HTML"
         },
-        "autominify.enableSeparateFolderHTML": {
+        "autominifyfiles.enableSeparateFolderHTML": {
           "type": "boolean",
           "default": false,
           "description": "Save minified HTML files in a 'min' folder"
         },
-        "autominify.enableJSMinification": {
+        "autominifyfiles.enableJSMinification": {
           "type": "boolean",
           "default": true,
           "description": "Minify JS"
         },
-        "autominify.enableSeparateFolderJS": {
+        "autominifyfiles.enableSeparateFolderJS": {
           "type": "boolean",
           "default": false,
           "description": "Save minified JS files in a 'min' folder"
         },
-        "autominify.enableCSSMinification": {
+        "autominifyfiles.enableCSSMinification": {
           "type": "boolean",
           "default": true,
           "description": "Minify CSS"
         },
-        "autominify.enableSeparateFolderCSS": {
+        "autominifyfiles.enableSeparateFolderCSS": {
           "type": "boolean",
           "default": false,
           "description": "Save minified CSS files in a 'min' folder"
         },
-        "autominify.enableShowInPreviewOnly": {
+        "autominifyfiles.enableShowInPreviewOnly": {
           "type": "boolean",
           "default": false,
           "description": "Preview without saving the file"
         },
-        "autominify.onlyMinUnderSubFolder": {
+        "autominifyfiles.onlyMinUnderSubFolder": {
           "type": "string",
           "default": "",
           "description": "Only minify under subfolder(s) (comma seperated list)"
         },
-        "autominify.htmlMinifierOptions": {
+        "autominifyfiles.htmlMinifierOptions": {
           "type": "object",
           "default": {
             "removeComments": true,
@@ -89,7 +89,7 @@
           },
           "description": "HTML Minifier options"
         },
-        "autominify.cssMinifierOptions": {
+        "autominifyfiles.cssMinifierOptions": {
           "type": "object",
           "default": {
             "level": {
@@ -100,12 +100,12 @@
           },
           "description": "Clean-CSS options"
         },
-        "autominify.cssLegacyMinifier": {
+        "autominifyfiles.cssLegacyMinifier": {
           "type": "boolean",
           "default": false,
           "description": "LegacyMinifier"
         },
-        "autominify.jsMinifierOptions": {
+        "autominifyfiles.jsMinifierOptions": {
           "type": "object",
           "default": {
             "mangle": false
@@ -118,7 +118,7 @@
   "dependencies": {
     "clean-css": "^5.3.3",
     "html-minifier-terser": "^7.2.0",
-    "terser": "^5.26.0",
+    "terser": "^5.51.2",
     "the-minifier": "^1.2.2"
   },
   "devDependencies": {

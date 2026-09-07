@@ -6,6 +6,8 @@ Automatically minify your HTML, CSS, and JS files to optimize space and bandwidt
 
 - Automatically generates a `.min.html`, `.min.css`, or `.min.js` file each time you save a `.html`, `.css`, or `.js` file.
   For example: `styles.css` becomes `styles.min.css`.
+- Ability to generate min files only within a specified folder.
+- Cross-platform support (Windows, MacOS, Linux).
 
 ## Basic Usage
 
